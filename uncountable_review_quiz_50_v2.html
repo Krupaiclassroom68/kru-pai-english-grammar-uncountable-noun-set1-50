@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kru Pai Classroom – Uncountable Nouns (Review + 50-Question Quiz)</title>
+<style>
+  :root{
+    --bg:#f7fbff;
+    --brand:#1e90ff;
+    --accent:#ffd23f;
+    --ok:#22c55e;
+    --bad:#ef4444;
+    --ink:#0f172a;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,var(--bg),#e8f2ff 70%);color:var(--ink)}
+  .wrap{max-width:980px;margin:0 auto;padding:20px}
+  .title{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .logo{width:44px;height:44px;border-radius:12px;background:radial-gradient(circle at 30% 30%,var(--accent),#ffb703);display:grid;place-items:center;font-weight:900;box-shadow:0 6px 16px rgba(0,0,0,.12)}
+  h1{margin:6px 0 0;font-size:clamp(22px,4vw,34px)}
+  .subtitle{opacity:.8;font-size:14px}
+  .card{background:#fff;border-radius:18px;padding:18px;box-shadow:0 10px 24px rgba(30,144,255,.12);margin-top:16px}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .btn{background:var(--brand);color:#fff;border:none;border-radius:12px;padding:10px 14px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px rgba(30,144,255,.24)}
+  .btn.ghost{background:#eff6ff;color:#0f172a;border:1px solid #cfe8ff}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+  @media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+  .row{display:grid;grid-template-columns:1.2fr .9fr 1fr;gap:8px;align-items:center;border:1px solid #e7f0ff;border-radius:12px;padding:10px}
+  .row .en{font-weight:900}
+  .row .ph{opacity:.8}
+  .row .th{font-weight:700}
+  .pager{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:8px}
+  .pill{background:#fff;border:1px solid #e5eefc;border-radius:999px;padding:6px 10px;font-weight:700}
+  /* Quiz */
+  .q{font-size:clamp(18px,3.6vw,26px);font-weight:900;text-align:center;margin:8px 0 14px}
+  .choices{display:grid;grid-template-columns:1fr;gap:10px}
+  @media(min-width:600px){.choices{grid-template-columns:1fr 1fr}}
+  .choice{background:#fff;border:2px solid #cfe8ff;border-radius:14px;padding:12px 16px;font-weight:900;text-align:center;cursor:pointer;transition:transform .05s ease}
+  .choice:hover{border-color:var(--brand);box-shadow:0 6px 16px rgba(30,144,255,.12)}
+  /* ปรับให้ไม่เปลี่ยนสีถาวรเมื่อถูก/ผิด */
+  .choice.good, .choice.bad{border-color:inherit;background:inherit}
+  /* overlays */
+  .mega-check,.mega-x{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:60;opacity:0;transform:scale(.6);transition:opacity .18s ease, transform .18s ease}
+  .mega-check.show{opacity:1;transform:scale(1)}
+  .mega-x.show{opacity:1;transform:scale(1)}
+  .badge{width:min(58vmin,360px);height:min(58vmin,360px);border-radius:50%;display:grid;place-items:center;color:#fff;font-size:min(18vmin,120px);font-weight:900;background:radial-gradient(circle at 30% 30%,#34d399,var(--ok));box-shadow:0 18px 80px rgba(34,197,94,.55),inset 0 0 30px rgba(255,255,255,.25);border:8px solid #ffffffaa}
+  .mega-x .badge{background:radial-gradient(circle at 30% 30%,#ff7b7b,var(--bad));box-shadow:0 18px 80px rgba(239,68,68,.55),inset 0 0 30px rgba(255,255,255,.25)}
+  .score{font-size:clamp(22px,5vw,36px);font-weight:900;text-align:center;margin:10px 0 4px}
+  .score-sub{text-align:center;opacity:.85;margin-bottom:16px}
+  .watermark{position:fixed;right:10px;bottom:10px;font-size:12px;opacity:.55;font-weight:700}
+  .toggle{display:flex;align-items:center;gap:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="title">
+    <div class="logo">KP</div>
+    <div>
+      <h1>Uncountable Nouns – Review & Quiz (50 Words)</h1>
+      <div class="subtitle">Kru Pai Classroom • ทบทวนทีละหน้า (5–10 คำ) แล้วทำแบบทดสอบ 50 ข้อ • ไม่มีจับเวลา</div>
+    </div>
+  </div>
+
+  <!-- Screen: Start -->
+  <section id="screen-start" class="card">
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <label for="player" style="font-weight:800">ใส่ชื่อผู้เล่น:</label>
+      <input id="player" type="text" placeholder="เช่น Ploy, Mint, Boss" style="flex:1;min-width:220px;padding:12px 14px;border:2px solid #cfe8ff;border-radius:12px;font-size:18px" />
+      <button class="btn" id="btnStart">เริ่มเรียน ▶</button>
+    </div>
+    <ul style="margin:12px 0 0;line-height:1.6">
+      <li>อ่านทบทวนคำศัพท์นามนับไม่ได้ <b>50 คำ</b> ทีละหน้า (เลือกแสดง 5 หรือ 10 คำ/หน้า)</li>
+      <li>ครบแล้วกด <b>“ไปสู่บททดสอบ”</b> – มี <b>50 ข้อ</b> ตัวเลือกสุ่มจากลิสต์ 50 คำเท่านั้น</li>
+      <li><b>ไม่มีจับเวลา</b> เมื่อเลือกคำตอบจะขึ้น ✓/✕ แล้วไปข้อถัดไป</li>
+    </ul>
+  </section>
+
+  <!-- Screen: Review -->
+  <section id="screen-review" class="card" style="display:none">
+    <div class="controls">
+      <div class="pill">ผู้เล่น: <b id="who">-</b></div>
+      <div class="pill">หน้า <span id="pageNow">1</span>/<span id="pageMax">10</span></div>
+      <div class="toggle">
+        คำต่อหน้า:
+        <button class="btn ghost" id="per5">5</button>
+        <button class="btn ghost" id="per10">10</button>
+        <span class="pill" id="perNow">5</span>
+      </div>
+      <div style="flex:1"></div>
+      <button class="btn" id="toQuiz" title="ไปแบบทดสอบท้ายบท">ไปสู่บททดสอบ ▶</button>
+    </div>
+    <div class="grid" id="reviewGrid"></div>
+    <div class="pager">
+      <button class="btn ghost" id="prevBtn">⬅ ย้อนกลับ</button>
+      <div class="pill" id="hint">เลื่อนอ่านให้ครบก่อนทำแบบทดสอบนะจ๊ะ ✨</div>
+      <button class="btn" id="nextBtn">ถัดไป ➡</button>
+    </div>
+  </section>
+
+  <!-- Screen: Quiz -->
+  <section id="screen-quiz" class="card" style="display:none">
+    <div class="controls">
+      <div class="pill">ผู้เล่น: <b id="who2">-</b></div>
+      <div class="pill">ข้อที่ <b id="qIdx">1</b>/50</div>
+      <div class="pill">คะแนน: <b id="score">0</b></div>
+      <div style="flex:1"></div>
+      <button class="btn ghost" id="backToReview">⬅ กลับไปทบทวน</button>
+    </div>
+    <div class="q" id="qText">meaning here</div>
+    <div class="choices">
+      <div class="choice" id="A">A</div>
+      <div class="choice" id="B">B</div>
+      <div class="choice" id="C">C</div>
+      <div class="choice" id="D">D</div>
+    </div>
+  </section>
+
+  <!-- Screen: Result -->
+  <section id="screen-result" class="card" style="display:none">
+    <div class="score">สรุปคะแนน</div>
+    <div class="score-sub">Uncountable Nouns – 50 ข้อ</div>
+    <div style="text-align:center">
+      <div style="font-size:28px;font-weight:900" id="finalScore">0 / 50</div>
+      <div style="opacity:.85" id="finalPct">0%</div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:14px">
+      <button class="btn" id="again">ทำแบบทดสอบอีกครั้ง</button>
+      <button class="btn ghost" id="reviewAgain">กลับไปหน้าทบทวน</button>
+    </div>
+  </section>
+</div>
+
+<!-- overlays -->
+<div class="mega-check" id="checkFx"><div class="badge">✓</div></div>
+<div class="mega-x" id="xFx"><div class="badge">✕</div></div>
+<div class="watermark">© Kru Pai Classroom</div>
+
+<script>
+const WORDS = [
+  ["water","วอ-เทอะ","น้ำ"],
+  ["milk","มิลค์","นม"],
+  ["rice","ไรซ์","ข้าว"],
+  ["bread","เบร็ด","ขนมปัง"],
+  ["sugar","ชู-เกอะ","น้ำตาล"],
+  ["salt","ซอลท์","เกลือ"],
+  ["butter","บัท-เทอะ","เนย"],
+  ["cheese","ชีซ","ชีส"],
+  ["meat","มีต","เนื้อสัตว์"],
+  ["chicken","ชิค-เคิน","เนื้อไก่"],
+  ["fish","ฟิช","เนื้อปลา"],
+  ["juice","จูซ","น้ำผลไม้"],
+  ["coffee","คอฟ-ฟี","กาแฟ"],
+  ["tea","ที","ชา"],
+  ["oil","ออยล์","น้ำมัน"],
+  ["air","แอร์","อากาศ"],
+  ["rain","เรน","ฝน"],
+  ["snow","สโนว์","หิมะ"],
+  ["sand","แซนด์","ทราย"],
+  ["hair","แฮร์","เส้นผม"],
+  ["paper","เพ-เพอะ","กระดาษ"],
+  ["money","มัน-นี","เงิน"],
+  ["homework","โฮม-เวิร์ก","การบ้าน"],
+  ["furniture","เฟอร์-นิ-เชอะ","เฟอร์นิเจอร์"],
+  ["luggage","ลัก-กิจ","สัมภาระ"],
+  ["equipment","อี-ควิป-เมินท์","อุปกรณ์"],
+  ["information","อิน-ฟอ-เม-ชั่น","ข้อมูล"],
+  ["news","นิวซ","ข่าว"],
+  ["advice","แอด-ไวซ์","คำแนะนำ"],
+  ["music","มิว-ซิก","ดนตรี"],
+  ["traffic","แทรฟ-ฟิก","การจราจร"],
+  ["knowledge","นอล-ลิจ","ความรู้"],
+  ["happiness","แฮพ-พิ-เนส","ความสุข"],
+  ["patience","เพ-เชินซ์","ความอดทน"],
+  ["love","ลัฟ","ความรัก"],
+  ["energy","เอน-เนอะ-จี","พลังงาน"],
+  ["chocolate","ชอค-โก-แลต","ช็อกโกแลต"],
+  ["jam","แจม","แยม"],
+  ["honey","ฮัน-นี","น้ำผึ้ง"],
+  ["flour","ฟลาว-เออะ","แป้ง (ทำขนม)"],
+  ["soup","ซูพ","ซุป"],
+  ["soil","ซอยล์","ดิน"],
+  ["light","ไลท์","แสง"],
+  ["heat","ฮีต","ความร้อน"],
+  ["dust","ดัสท์","ฝุ่น"],
+  ["steam","สตีม","ไอน้ำ"],
+  ["pepper","เพพ-เพอะ","พริกไทย"],
+  ["weather","เวธ-เธอะ","สภาพอากาศ"],
+  ["garbage","การ์-บิจ","ขยะ"],
+  ["work","เวิร์ก","งาน (โดยรวม)"]
+];
+
+// ===== Global state =====
+let playerName = "";
+
+// ===== Start screen =====
+const screenStart = document.getElementById('screen-start');
+const playerInput = document.getElementById('player');
+const btnStart = document.getElementById('btnStart');
+const who = document.getElementById('who');
+const who2 = document.getElementById('who2');
+
+btnStart.onclick = ()=>{
+  playerName = (playerInput.value || "").trim() || "Player";
+  who.textContent = playerName;
+  who2.textContent = playerName;
+  screenStart.style.display = 'none';
+  document.getElementById('screen-review').style.display = 'block';
+};
+playerInput.addEventListener('keydown', e=>{ if(e.key==='Enter'){ btnStart.click(); } });
+
+// ===== Review Paging =====
+let itemsPerPage = 5;
+let page = 1;
+
+const screenReview = document.getElementById('screen-review');
+const reviewGrid = document.getElementById('reviewGrid');
+const pageNow = document.getElementById('pageNow');
+const pageMax = document.getElementById('pageMax');
+const perNow = document.getElementById('perNow');
+const per5 = document.getElementById('per5');
+const per10 = document.getElementById('per10');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const toQuiz = document.getElementById('toQuiz');
+const backToReview = document.getElementById('backToReview');
+
+function totalPages(){ return Math.ceil(WORDS.length / itemsPerPage); }
+
+function renderPage(){
+  const start = (page-1)*itemsPerPage;
+  const end = Math.min(start + itemsPerPage, WORDS.length);
+  reviewGrid.innerHTML = "";
+  for(let i=start; i<end; i++){
+    const [en, ph, th] = WORDS[i];
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = `<div class="en">${en}</div><div class="ph">/${ph}/</div><div class="th">${th}</div>`;
+    reviewGrid.appendChild(row);
+  }
+  pageNow.textContent = page;
+  pageMax.textContent = totalPages();
+  perNow.textContent = itemsPerPage;
+  prevBtn.disabled = page===1;
+  nextBtn.disabled = page===totalPages();
+}
+
+per5.onclick = ()=>{ itemsPerPage=5; page=1; renderPage(); }
+per10.onclick = ()=>{ itemsPerPage=10; page=1; renderPage(); }
+prevBtn.onclick = ()=>{ if(page>1){ page--; renderPage(); } }
+nextBtn.onclick = ()=>{ if(page<totalPages()){ page++; renderPage(); } }
+
+// ===== Quiz =====
+const quizScreen = document.getElementById('screen-quiz');
+const resultScreen = document.getElementById('screen-result');
+const qText = document.getElementById('qText');
+const qIdxEl = document.getElementById('qIdx');
+const scoreEl = document.getElementById('score');
+const finalScore = document.getElementById('finalScore');
+const finalPct = document.getElementById('finalPct');
+const again = document.getElementById('again');
+const reviewAgain = document.getElementById('reviewAgain');
+
+const A = document.getElementById('A');
+const B = document.getElementById('B');
+const C = document.getElementById('C');
+const D = document.getElementById('D');
+
+const fxCheck = document.getElementById('checkFx');
+const fxX = document.getElementById('xFx');
+
+let order = [...Array(WORDS.length).keys()].map(v=>v);
+// shuffle
+order = order.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+
+let qi = 0;
+let score = 0;
+let correctIndex = 0; // 0..3 (A-D)
+
+function flash(el){ el.classList.add('show'); setTimeout(()=>el.classList.remove('show'), 600); }
+
+function startQuiz(){
+  screenReview.style.display='none';
+  quizScreen.style.display='block';
+  resultScreen.style.display='none';
+  // reshuffle order each time
+  order = [...Array(WORDS.length).keys()].map(v=>v);
+  order = order.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+  qi = 0; score = 0; scoreEl.textContent = score;
+  renderQuiz();
+}
+
+function backReview(){
+  quizScreen.style.display='none';
+  resultScreen.style.display='none';
+  screenReview.style.display='block';
+}
+
+function renderQuiz(){
+  if(qi >= order.length){ return showResult(); }
+  const idx = order[qi];
+  const [en, ph, th] = WORDS[idx];
+  qIdxEl.textContent = (qi+1);
+
+  // Build 3 distractors from WORDS
+  const pool = [...Array(WORDS.length).keys()].filter(i=>i!==idx);
+  for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; }
+  const d1 = WORDS[pool[0]];
+  const d2 = WORDS[pool[1]];
+  const d3 = WORDS[pool[2]];
+
+  const even = (qi % 2 === 0); // even: meaning -> pick EN; odd: word -> pick TH
+  let options = [];
+  let answerLabel = "";
+
+  if(even){
+    qText.textContent = `เลือกคำศัพท์อังกฤษที่ตรงกับความหมาย: “${th}”`;
+    options = [en, d1[0], d2[0], d3[0]];
+    answerLabel = en;
+  }else{
+    qText.textContent = `ความหมายใดตรงกับคำว่า: “${en}”`;
+    options = [th, d1[2], d2[2], d3[2]];
+    answerLabel = th;
+  }
+
+  // shuffle options + remember correct index
+  const tagged = options.map((opt)=>({k:Math.random(), opt})).sort((a,b)=>a.k-b.k).map(x=>x.opt);
+  options = tagged;
+  correctIndex = options.indexOf(answerLabel);
+
+  // reset buttons (และลบคลาสชั่วคราวให้แน่ใจ)
+  [A,B,C,D].forEach(btn=>{
+    btn.textContent = "";
+    btn.className = "choice";
+    btn.replaceWith(btn.cloneNode(true));
+  });
+  const _A = document.getElementById('A');
+  const _B = document.getElementById('B');
+  const _C = document.getElementById('C');
+  const _D = document.getElementById('D');
+  _A.textContent = `A) ${options[0]}`;
+  _B.textContent = `B) ${options[1]}`;
+  _C.textContent = `C) ${options[2]}`;
+  _D.textContent = `D) ${options[3]}`;
+
+  const handlers = [_A,_B,_C,_D];
+  handlers.forEach((btn, idx)=>{
+    btn.onclick = ()=> check(idx, btn);
+  });
+}
+
+function check(idx, btn){
+  // ไม่เปลี่ยนสีถาวร: เพิ่มคลาสชั่วคราว แล้วลบทิ้งก่อนเปลี่ยนข้อ
+  if(idx === correctIndex){
+    btn.classList.add('good'); flash(fxCheck);
+  }else{
+    btn.classList.add('bad'); flash(fxX);
+  }
+  setTimeout(()=>{
+    // ลบคลาสเพื่อไม่ให้สีค้าง
+    btn.classList.remove('good','bad');
+    if(idx === correctIndex){ score++; scoreEl.textContent = score; }
+    qi++; renderQuiz();
+  }, 420);
+}
+
+function showResult(){
+  quizScreen.style.display='none';
+  resultScreen.style.display='block';
+  finalScore.textContent = `${score} / ${WORDS.length}`;
+  finalPct.textContent = `${Math.round(score/WORDS.length*100)}%`;
+}
+
+document.getElementById('toQuiz').onclick = startQuiz;
+document.getElementById('backToReview').onclick = backReview;
+document.getElementById('again').onclick = startQuiz;
+document.getElementById('reviewAgain').onclick = backReview;
+
+// init
+function init(){
+  document.getElementById('pageMax').textContent = Math.ceil(WORDS.length / 5);
+  renderPage();
+}
+init();
+</script>
+</body>
+</html>
